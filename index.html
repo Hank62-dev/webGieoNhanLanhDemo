@@ -871,15 +871,56 @@ setInterval(spawnPetal,3000);
 // ═══════════════════════════════════
 //  GÕ MÕ
 // ═══════════════════════════════════
+// function hitMo(){
+//   moCount++;
+//   document.getElementById('mo-count').textContent=moCount;
+//   const wrap=document.getElementById('mo-bowl-wrap'),ripple=document.getElementById('mo-ripple');
+//   wrap.classList.add('hit'); ripple.classList.remove('active'); void ripple.offsetWidth; ripple.classList.add('active');
+//   setTimeout(()=>wrap.classList.remove('hit'),180);
+//   const waves=document.querySelectorAll('#mo-waves .sw');
+//   const h=[6,16,26,16,6];
+//   waves.forEach((w,i)=>{w.style.height=h[i]+'px';w.style.opacity='.8';setTimeout(()=>{w.style.height='4px';w.style.opacity='.1';},400);});
+//   if(moCount===10) showModal('🔔','Gõ 10 Tiếng Mõ!','Tâm thanh, trí sáng','+30');
+//   if(moCount===50) showModal('🔔','Gõ 50 Tiếng Mõ!','Thiền định sâu sắc','+100');
+// }
+
+const moSound = new Audio('gomov2_2.mp3');
+
 function hitMo(){
   moCount++;
-  document.getElementById('mo-count').textContent=moCount;
-  const wrap=document.getElementById('mo-bowl-wrap'),ripple=document.getElementById('mo-ripple');
-  wrap.classList.add('hit'); ripple.classList.remove('active'); void ripple.offsetWidth; ripple.classList.add('active');
+
+  // 🔊 phát âm thanh
+  moSound.currentTime = 0; // để bấm liên tục không bị delay
+  moSound.play();
+
+  setTimeout(()=>{
+    moSound.pause();
+    moSound.currentTime = 0;
+  }, 300);
+  document.getElementById('mo-count').textContent = moCount;
+
+  const wrap = document.getElementById('mo-bowl-wrap'),
+        ripple = document.getElementById('mo-ripple');
+
+  wrap.classList.add('hit');
+  ripple.classList.remove('active');
+  void ripple.offsetWidth;
+  ripple.classList.add('active');
+
   setTimeout(()=>wrap.classList.remove('hit'),180);
-  const waves=document.querySelectorAll('#mo-waves .sw');
-  const h=[6,16,26,16,6];
-  waves.forEach((w,i)=>{w.style.height=h[i]+'px';w.style.opacity='.8';setTimeout(()=>{w.style.height='4px';w.style.opacity='.1';},400);});
+
+  const waves = document.querySelectorAll('#mo-waves .sw');
+  const h = [6,16,26,16,6];
+
+  waves.forEach((w,i)=>{
+    w.style.height = h[i] + 'px';
+    w.style.opacity = '.8';
+    setTimeout(()=>{
+      w.style.height = '4px';
+      w.style.opacity = '.1';
+    },400);
+  });
+
   if(moCount===10) showModal('🔔','Gõ 10 Tiếng Mõ!','Tâm thanh, trí sáng','+30');
   if(moCount===50) showModal('🔔','Gõ 50 Tiếng Mõ!','Thiền định sâu sắc','+100');
 }
