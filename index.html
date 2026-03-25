@@ -1057,56 +1057,40 @@ function getTime(){const n=new Date();return String(n.getHours()).padStart(2,'0'
 function escHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 async function callAI(userMsg){
-  const API_KEY = "AIzaSyBAaCX0626ITE9LawnwbmAVV21rxPiuaJ8";
-
-  const context = `Bạn là Trợ Lý Tâm Linh...
-(giữ nguyên prompt của bạn)`;
+  const API_KEY = "AIzaSyBAaCX0626ITE9LawnwbmAVV21rxPiuaJ8"; // ❗ thay key mới
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-goog-api-key": API_KEY
         },
         body: JSON.stringify({
           contents: [
             {
-              role: "user",
               parts: [
-                { text: context + "\n\nUser: " + userMsg }
+                {
+                  text: userMsg
+                }
               ]
             }
-          ],
-          generationConfig: {
-            maxOutputTokens: 200,
-            temperature: 0.8
-          }
+          ]
         })
       }
     );
 
     const data = await response.json();
-    console.log("Gemini raw:", data); // 🔥 debug
+    console.log("Gemini raw:", data);
 
-    // ✅ parse chắc chắn hơn
-    if (
-      data.candidates &&
-      data.candidates.length > 0 &&
-      data.candidates[0].content &&
-      data.candidates[0].content.parts &&
-      data.candidates[0].content.parts.length > 0
-    ) {
-      return data.candidates[0].content.parts[0].text;
-    }
-
-    // ❌ nếu Gemini fail → báo lỗi rõ ràng
-    return "AI đang bận, thử lại giúp mình 🙏";
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text
+      || "AI chưa trả lời 😢";
 
   } catch (err) {
     console.error(err);
-    return "Không kết nối được AI 😢";
+    return "Lỗi kết nối AI 😢";
   }
 }
 
