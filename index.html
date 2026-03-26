@@ -1190,7 +1190,7 @@ function showToast(msg){const old=document.querySelector('.toast');if(old)old.re
 let chatOpen=false;
 const SUGGESTIONS=['Gợi ý việc thiện hôm nay','Làm gì tăng điểm đức?','Cách sám hối tội lỗi?','Ý nghĩa bố thí là gì?'];
 function toggleChat(){chatOpen=!chatOpen;document.getElementById('chat-panel').classList.toggle('open',chatOpen);if(chatOpen&&document.getElementById('chat-msgs').children.length===0)initChat();}
-function initChat(){const s=document.getElementById('chat-suggests');s.innerHTML='';SUGGESTIONS.forEach(sg=>{const b=document.createElement('div');b.className='chat-sug';b.textContent=sg;b.onclick=()=>sendChatMsg(sg);s.appendChild(b);});addBotMsg('Chào bạn! 🙏 Tôi là Trợ Lý Tâm Linh. Hôm nay bạn muốn làm gì tốt đẹp?');}
+function initChat(){const s=document.getElementById('chat-suggests');s.innerHTML='';SUGGESTIONS.forEach(sg=>{const b=document.createElement('div');b.className='chat-sug';b.textContent=sg;b.onclick=()=>sendChatMsg(sg);s.appendChild(b);});addBotMsg('Chào bạn! Tôi là Trợ Lý Tâm Linh. Hôm nay bạn muốn làm gì tốt đẹp?');}
 function chatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 function sendChat(){const input=document.getElementById('chat-input');const msg=input.value.trim();if(!msg)return;sendChatMsg(msg);input.value='';}
 function sendChatMsg(msg){addUserMsg(msg);document.getElementById('chat-suggests').innerHTML='';const typingEl=addTypingIndicator();callAI(msg).then(reply=>{typingEl.remove();addBotMsg(reply);scrollChat();});}
